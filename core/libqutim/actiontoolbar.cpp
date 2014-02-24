@@ -28,7 +28,6 @@
 #include <QAction>
 #include <QToolButton>
 #include <QMouseEvent>
-#include "actiontoolbar_p.h"
 #include "config.h"
 #include "actiongenerator_p.h"
 #include <QShortcut>

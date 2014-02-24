@@ -79,5 +79,7 @@ private:
 };
 }
 
+#include "actiontoolbar_p.h"
+
 #endif // ACTIONTOOLBAR_H
 
