@@ -34,35 +34,9 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QDirIterator>
-#include <QBitArray>
 
 namespace qutim_sdk_0_3
 {
-
-#define REMEMBER_ALL_ABILITIES 1
-
-struct FileTransferScope
-{
-	struct Observer
-	{
-		Observer();
-		QList<QPointer<FileTransferObserver> > list;
-		ChatUnit *unit;
-#ifdef REMEMBER_ALL_ABILITIES
-		QBitArray abilities;
-		int setCount;
-#else
-		bool ability;
-#endif
-	};
-	FileTransferScope() : manager(0), inited(false) {}
-	bool init();
-	QList<FileTransferFactory*> factories;
-	QMap<ChatUnit*, Observer> observers;
-	FileTransferManager *manager;
-	bool inited;
-};
-typedef QMap<ChatUnit*, FileTransferScope::Observer> FileTransferObserverMap;
 
 bool FileTransferScope::init()
 {
@@ -507,19 +481,6 @@ void FileTransferJob::virtual_hook(int id, void *data)
 	Q_UNUSED(id);
 	Q_UNUSED(data);
 }
-
-class FileTransferObserverPrivate
-{
-	Q_DECLARE_PUBLIC(FileTransferObserver)
-public:
-	FileTransferObserverPrivate(FileTransferObserver *q) : q_ptr(q), scope(0) {}
-	static FileTransferObserverPrivate *get(FileTransferObserver *o) { return o->d_func(); }
-	void emitAbilityChanged(bool ability) { emit q_func()->abilityChanged(ability); }
-	void _q_clearObserverData(QObject *obj);
-	FileTransferObserver *q_ptr;
-	FileTransferObserverMap::Iterator scope;
-	bool isEmpty;
-};
 
 void FileTransferObserverPrivate::_q_clearObserverData(QObject *unit)
 {
