@@ -34,6 +34,7 @@
 #include <qutim/systemintegration.h>
 #include <QDeclarativeContext>
 #include <pwd.h>
+#include <unistd.h>
 #include <QTextCodec>
 #include <QApplication>
 
