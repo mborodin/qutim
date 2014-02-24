@@ -82,5 +82,6 @@ private:
 Q_DECLARE_METATYPE(qutim_sdk_0_3::Buddy*)
 Q_DECLARE_METATYPE(QList<qutim_sdk_0_3::Buddy*>)
 
+#include "buddy_p.h"
 #endif // BUDDY_H
 
