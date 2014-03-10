@@ -166,7 +166,6 @@ OtrInternal::OtrInternal(OtrSupport::Policy &policy,
     otrl_privkey_read_fingerprints(m_userstate,
                                    m_fingerprintFile.toLocal8Bit().data(),
                                    NULL, NULL);
-    otrl_instag_read(m_userstate, m_keysFile.toLocal8Bit().data());
 }
 
 //-----------------------------------------------------------------------------
@@ -184,9 +183,6 @@ QString OtrInternal::encryptMessage(const QString& from, const QString& to,
     char* encMessage = NULL;
     gcry_error_t err;
 
-    //otrl_instag_t instag = get_instag(m_userstate, from.toStdString().c_str(), protocol.toStdString().c_str());
-    //ConnContext* ctx = otrl_context_find_v3(m_userstate, from.toStdString().c_str(), to.toStdString().c_str(), protocol.toStdString().c_str(), 0, NULL, NULL, NULL);
-    //ConnContext* ctx = otrl_context_find(m_userstate, from.toStdString().c_str(), to.toStdString().c_str(), protocol.toStdString().c_str(), OTRL_INSTAG_BEST, 0, NULL, NULL, NULL);
     err = otrl_message_sending(m_userstate, &m_uiOps, this,
                                from.toStdString().c_str(), protocol.toStdString().c_str(),
                                to.toStdString().c_str(), OTRL_INSTAG_BEST,
@@ -227,15 +223,13 @@ QString OtrInternal::decryptMessage(const QString& from, const QString& to,
     ConnContext *context = 0;
     NextExpectedSMP nextMsg;
 
-    ConnContext* ctx = otrl_context_find_v3(m_userstate, from.toStdString().c_str(), to.toStdString().c_str(), protocol.toStdString().c_str(), 0, NULL, NULL, NULL);
-
     ignoreMessage = otrl_message_receiving(m_userstate, &m_uiOps, this,
                                            to.toStdString().c_str(),
                                            protocol.toStdString().c_str(),
                                            from.toStdString().c_str(),
                                            cryptedMessage.toUtf8().data(),
                                            &newMessage,
-                                           &tlvs, &ctx, NULL, NULL);
+                                           &tlvs, NULL, NULL);
 
     context = otrl_context_find_v3( m_userstate, from.toStdString().c_str(), to.toStdString().c_str(), protocol.toStdString().c_str(), 0, NULL, NULL, NULL);
 
